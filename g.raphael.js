@@ -74,11 +74,19 @@
             case "round":
             if (!dir) {
                 var r = ~~(height / 2);
-                if (width < r) {
-                    r = width;
-                    path = ["M", x + .5, y + .5 - ~~(height / 2), "l", 0, 0, "a", r, ~~(height / 2), 0, 0, 1, 0, height, "l", 0, 0, "z"];
+                if (Math.abs(width) < r) {
+                    r = Math.abs(width);
+                    if(width > 0) {
+                        path = ["M", x + .5, y + .5 - ~~(height / 2), "l", 0, 0, "a", r, ~~(height / 2), 0, 0, 1, 0, height, "l", 0, 0, "z"];
+                    } else {
+                        path = ["M", x + .5, y + .5 - ~~(height / 2), "l", 0, 0, "a", r, ~~(height / 2), 0, 0, 0, 0, height, "l", 0, 0, "z"];
+                    }
                 } else {
-                    path = ["M", x + .5, y + .5 - r, "l", width - r, 0, "a", r, r, 0, 1, 1, 0, height, "l", r - width, 0, "z"];
+                    if(width > 0) {
+                        path = ["M", x + .5, y + .5 - r, "l", width - r, 0, "a", r, r, 0, 1, 1, 0, height, "l", r - width, 0, "z"];
+                    } else {
+                        path = ["M", x + .5, y + .5 - r, "l", r + width, 0, "a", r, r, 0, 1, 0, 0, height, "l", -width - r, 0, "z"];
+                    }
                 }
             } else {
                 r = ~~(width / 2);
@@ -93,7 +101,11 @@
             case "sharp":
             if (!dir) {
                 var half = ~~(height / 2);
-                path = ["M", x, y + half, "l", 0, -height, mmax(width - half, 0), 0, mmin(half, width), half, -mmin(half, width), half + (half * 2 < height), "z"];
+                if(width > 0) {
+                    path = ["M", x, y + half, "l", 0, -height, mmax(width - half, 0), 0, mmin(half, width), half, -mmin(half, width), half + (half * 2 < height), "z"];
+                } else {
+                    path = ["M", x, y + half, "l", 0, -height, mmin(width + half, 0), 0, mmax(-half, width), half, -mmax(-half, width), half + (half * 2 < height), "z"];
+                }
             } else {
                 half = ~~(width / 2);
                 path = ["M", x + half, y, "l", -width, 0, 0, -mmax(height - half, 0), half, -mmin(half, height), half, mmin(half, height), half, "z"];
@@ -108,8 +120,12 @@
             break;
             case "soft":
             if (!dir) {
-                r = mmin(width, Math.round(height / 5));
-                path = ["M", x + .5, y + .5 - ~~(height / 2), "l", width - r, 0, "a", r, r, 0, 0, 1, r, r, "l", 0, height - r * 2, "a", r, r, 0, 0, 1, -r, r, "l", r - width, 0, "z"];
+                r = mmin(Math.abs(width), Math.round(height / 5));
+                if(width > 0) {
+                    path = ["M", x + .5, y + .5 - ~~(height / 2), "l", width - r, 0, "a", r, r, 0, 0, 1, r, r, "l", 0, height - r * 2, "a", r, r, 0, 0, 1, -r, r, "l", r - width, 0, "z"];
+                } else {
+                    path = ["M", x + .5, y + .5 - ~~(height / 2), "l", width + r, 0, "a", r, r, 0, 0, 0, -r, r, "l", 0, height - r * 2, "a", r, r, 0, 0, 0, r, r, "l", -r - width, 0, "z"];
+                }
             } else {
                 r = mmin(Math.round(width / 5), height);
                 path = ["M", x - ~~(width / 2), y, "l", 0, r - height, "a", r, r, 0, 0, 1, r, -r, "l", width - 2 * r, 0, "a", r, r, 0, 0, 1, r, r, "l", 0, height - r, "z"];

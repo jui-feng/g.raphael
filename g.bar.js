@@ -216,11 +216,19 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         covers = this.set(),
         covers2 = this.set(),
         total = Math.max.apply(Math, values),
+        min = Math.min.apply(Math, values),
         stacktotal = [],
         paper = this,
         multi = 0,
         colors = opts.colors || this.g.colors,
         len = values.length;
+        
+    if (min < 0) { // there are negative values - add some space on the left side
+        total -= min; // (min is negative, so this increases total)
+    } else {
+        min = 0; // so charts with only positive values start at 0
+    }
+        
     if (this.raphael.is(values[0], "array")) {
         total = [];
         multi = len;
@@ -260,13 +268,13 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         stack = [];
         for (var j = 0; j < (multi || 1); j++) {
             var val = multi ? values[j][i] : values[i],
-                bar = this.g.finger(x, Y + barheight / 2, Math.round(val * X), barheight - 1, false, type).attr({stroke: "none", fill: colors[multi ? j : i]});
+                bar = this.g.finger(x+((-min*width)/total), Y + barheight / 2, Math.round(val * X), barheight - 1, false, type).attr({stroke: "none", fill: colors[multi ? j : i]});
             if (multi) {
                 bars[j].push(bar);
             } else {
                 bars.push(bar);
             }
-            bar.x = x + Math.round(val * X);
+            bar.x = x+((-min*width)/total) + Math.round(val * X);
             bar.y = Y + barheight / 2;
             bar.w = Math.round(val * X);
             bar.h = barheight;
