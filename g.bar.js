@@ -320,16 +320,16 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         labels = labels || [];
         this.labels = paper.set();
         for (var i = 0; i < len; i++) {
-            for (var j = 0; j < multi; j++) {
+            for (var j = 0; j < (multi || 1); j++) {
                 var  label = paper.g.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total);
-                var X = isRight ? bars[i * (multi || 1) + j].x - barheight / 2 + 3 : x + 5,
+                var X = isRight ? (multi ? bars[j][i] : bars[i]).x - barheight / 2 + 3 : x + 5,
                     A = isRight ? "end" : "start",
                     L;
-                this.labels.push(L = paper.g.text(X, bars[i * (multi || 1) + j].y, label).attr({"text-anchor": A}).insertBefore(covers[0]));
+                this.labels.push(L = paper.g.text(X, (multi ? bars[j][i] : bars[i]).y, label).attr({"text-anchor": A}).insertBefore(covers[0]));
                 if (L.getBBox().x < x + 5) {
                     L.attr({x: x + 5, "text-anchor": "start"});
                 } else {
-                    bars[i * (multi || 1) + j].label = L;
+                    (multi ? bars[j][i] : bars[i]).label = L;
                 }
             }
         }
