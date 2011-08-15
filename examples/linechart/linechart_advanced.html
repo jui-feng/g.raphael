@@ -1,18 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
+<html>
     <head>
-        <title>gRaphaël Static Line Charts</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="author" content="Dmitry Baranovskiy">
-        <meta name="description" content="Charting JavaScript Library">
-        <link rel="stylesheet" href="inc/demo.css" type="text/css" media="screen" charset="utf-8">
-        <script src="inc/raphael-min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../src/g.raphael.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../src/g.line.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" charset="utf-8">
+        <title>gRaphaël Line Chart - a simple line chart example</title>
+        <script type="text/javascript" src="../raphael-min.js"></script>
+        <script type="text/javascript" src="../../src/g.raphael.js"></script>
+        <script type="text/javascript" src="../../src/g.line.js"></script>
+        <script type="text/javascript">
             window.onload = function () {
-                var r = Raphael("holder");
+                // Creates canvas 640 × 480 at 10, 50
+                var r = Raphael(10, 50, 640, 480);
                 r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
                 
                 var x = [], y = [], y2 = [], y3 = [];
@@ -39,16 +34,9 @@
                 }, function () {
                     this.tags && this.tags.remove();
                 });
-                // lines.lines[0].animate({"stroke-width": 6}, 1000);
-                // lines.symbols[0].attr({stroke: "#fff"});
-                // lines.symbols[0][1].animate({fill: "#f00"}, 1000);
             };
         </script>
     </head>
-    <body class="raphael" id="g.raphael.dmitry.baranovskiy.com">
-        <div id="holder"></div>
-        <p>
-            Demo of <a href="http://g.raphaeljs.com/">gRaphaël</a> JavaScript library.
-        </p>
+    <body>   
     </body>
 </html>
