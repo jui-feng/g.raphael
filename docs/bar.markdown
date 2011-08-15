@@ -12,15 +12,15 @@ Creates a bar chart.
 
 ## Parameters ##
 
-**1. x** number **X coordinate of the centre**
+**1. x** number **X coordinate of the upper left corner**
 
-**2. y** number **Y coordinate of the centre**
+**2. y** number **Y coordinate of the upper left corner**
 
 **3. width** number **width**
 
 **4. height** number **height**
 
-**5. values** array of numbers **Values for your bars.**
+**5. values** array of arrays of numbers (multiple series) or single array of numbers **Values for your bars. Pass multiple arrays for multiple data series (multi chart or stacked chart).**
 
 **5. opts** object **Options (more info soon.)**
 
@@ -30,10 +30,10 @@ _opts_
 
 Values are,
 
-    + "round"
-    + "sharp"
-    + "soft"
-    + "square"
+    + "round" (semi-circle at end of bars)
+    + "sharp" (triangle at end of bars)
+    + "soft" (rounded corners)
+    + "square" (just square)
     
 Defaults to "square" if type is not specified.
 
@@ -63,7 +63,8 @@ then according to the above, my bargutter = 8px.
     
 ## Methods ##
 
-**1. .hover(fin, fout)** - fin/fout: **callbacks to trigger when mouse hovers in and out respectively over the bars.**
+**1. .hover(fin, fout)** - **fin/fout**: callbacks to trigger when mouse hovers in and out respectively over the bars.
+**2. .label(labels, isRight/isBottom)** - **Might be broken in official g.raphael** - **labels**: array with the same structure like the one passed as values to r.g.barchart(), containing strings to add as a label for each bar., **isRight/isBottom**: Booleans that specify if the labels should be displayed at the right side (horizontal bar chart) / bottom (standard bar chart).
 
 ## Usage ##
 
@@ -89,16 +90,23 @@ Attach hover event to piechart,
 
 
     // example
-    r.g.barchart.hover(function() {
+    barchart.hover(function() {
         this.bar.attr({fill: "#333"}); 
     }, function() {
         this.bar.attr({fill: "#666"});
     });
 
+Add labels,
+
+
+	// show labels at the bottom of the chart (isBottom=true):
+	barchart.label([["big number", "number", "small number"]], true);
+
 ## Others ##
 
-N/A
+ + Official g.raphael does not allow negative numbers for values. This repository has a patch that adds negative values support for hbarchart (horizontal only).
 
 ## Written by ##
 
 Kenny Shen, www.northpole.sg.
+Some tiny changes by Florian W. (jui-feng)
