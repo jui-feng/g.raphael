@@ -223,6 +223,9 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         colors = opts.colors || this.g.colors,
         len = values.length;
         
+    if(total < 0) { // so charts with only negative values end at 0
+        total = 0;
+    }
     if (min < 0) { // there are negative values - add some space on the left side
         total -= min; // (min is negative, so this increases total)
     } else {
